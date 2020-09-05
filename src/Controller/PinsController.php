@@ -15,4 +15,9 @@ class PinsController extends AbstractController
     {
         return $this->render('pins/index.html.twig');
     }
+
+    public function home()
+    {
+        return $this->render('pins/home.html.twig');
+    }
 }
