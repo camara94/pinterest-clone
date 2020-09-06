@@ -5,6 +5,12 @@
         <title>Ping</title>
     </head>
     <body>
-        <h1>Ping</h1>
+        {% for pin in pins %}
+
+            <article>
+                <h1>{{ pin.title }} </h1>
+                <p> {{ pin.description  }} </p>
+            </article>
+        {% endfor %}
     </body>
 </html>
