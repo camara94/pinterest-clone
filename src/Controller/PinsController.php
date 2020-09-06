@@ -3,17 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Pin;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\PinRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PinsController extends AbstractController
 {
-    private $em;
-    public function __construct(EntityManagerInterface $em)
+    private $repos;
+    public function __construct(PinRepository $repos)
     {
-       $this->em = $em; 
+       $this->repos = $repos; 
     }
 
     /**
@@ -21,9 +21,7 @@ class PinsController extends AbstractController
      */
     public function index(): Response
     {
-        $pr = $this->em->getRepository(Pin::class);
-        $pins = $pr->findAll();
-        return $this->render('pins/index.html.twig', ['pins'=> $pins]);
+        return $this->render('pins/index.html.twig', ['pins'=>$this->repos->findAll()]);
     }
 
     public function home()
