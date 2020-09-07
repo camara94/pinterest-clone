@@ -6,6 +6,7 @@
     </head>
     <body>
         <form method="POST">
+            <input type="hidden" name="_token" value="{{ csrf_token('pin_create') }}" />
             <div>
                 <label for="title">Titre</label><br>
                 <input type="text" name="title" id="title"/>

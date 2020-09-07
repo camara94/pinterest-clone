@@ -28,11 +28,13 @@ class PinsController extends AbstractController
     { 
         if( $request->isMethod('POST')  ) {
             $data = $request->request->all();
-            $pin = new Pin;
-            $pin->setTitle($data['title']);
-            $pin->setDescription($data['description']);
-            $em->persist($pin);
-            $em->flush();
+            if ( $this->isCsrfTokenValid('pin_create', $data['_token'])  ) {
+                $pin = new Pin;
+                $pin->setTitle($data['title']);
+                $pin->setDescription($data['description']);
+                $em->persist($pin);
+                $em->flush();
+            }
             return $this->redirect('/');
         }
         return $this->render('pins/create.html.twig');
