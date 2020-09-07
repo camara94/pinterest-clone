@@ -21,6 +21,7 @@ class PinsController extends AbstractController
      */
     public function index(PinRepository $repos): Response
     {
+        $repos->createQueryBuilder("delete from pin");
         return $this->render('pins/index.html.twig', ['pins'=>$repos->findAll()]);
     }
 
@@ -34,13 +35,12 @@ class PinsController extends AbstractController
         $pin->setDescription('Je suis un Data Scientiste en Python');
 
         $form = $this->createFormBuilder($pin)
-             ->add('title', TextType::class, 
+             ->add('title', null, 
              ['label'=>'Titre: ',
              'required'=> true,
               'attr'=>['class'=> 'cool']
               ])
-             ->add('description', TextareaType::class, ['label'=>'Descripton: '])
-             ->add('submit', SubmitType::class, ['label'=>'Create Pin'])
+             ->add('description', null, ['label'=>'Descripton: '])
              ->getForm()
         ;
         $form->handleRequest($request);
@@ -49,6 +49,6 @@ class PinsController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('app_home');
         }
-        return $this->render('pins/create.html.twig', ['monform' => $form->createView()]);
+        return $this->render('pins/create.html.twig', ['form' => $form->createView()]);
     }
 }
