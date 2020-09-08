@@ -26,9 +26,17 @@ class PinsController extends AbstractController
     }
 
     /**
-     * @Route("/pin/create", name="app_pins_create", methods={"GET","POST"})
+     * @Route("/pin/{id<[0-9]+>}")
      */
-    public function create(Request $request, EntityManagerInterface $em)
+    public function shwo(Pin $pin): Response
+    {   
+        return $this->render('pins/show.html.twig', compact('pin'));
+    }
+
+    /**
+     * @Route("/pin/create", name="app_pins_create", priority=10, methods={"GET","POST"})
+     */
+    public function create(Request $request,  EntityManagerInterface $em)
     { 
         $pin = new Pin;
         $pin->setTitle('Laby Damaro CAMARA');
@@ -47,7 +55,7 @@ class PinsController extends AbstractController
         if( $form->isSubmitted() && $form->isValid()  ) {
             $em->persist($form->getData());
             $em->flush();
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_pins_shwo', ['id'=> $pin->getId()]);
         }
         return $this->render('pins/create.html.twig', ['form' => $form->createView()]);
     }
